@@ -1,9 +1,20 @@
 import { Outlet, Navigate } from 'react-router-dom';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
+
 
 const PrivateLayout = () => {
     
-const [authenticated, setAuthenticated] = useState(null);
+const [isAuthenticated, setIsAuthenticated] = useState(false);
+
+if(isAuthenticated === null){
+    return <div>Loading..</div>
+}
+
+return(
+    <>
+        {isAuthenticated ? <Outlet/> : <Navigate to="/login" />}
+    </>
+)
 
 }
 

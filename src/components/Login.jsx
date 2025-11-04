@@ -1,27 +1,78 @@
-
+import { useState } from "react";
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
 import { Label } from "./ui/label";
-
+import { supabase } from "@/supabase";
+import { useNavigate } from "react-router-dom";
 
 export default function Login() {
-  // Create a state variable to store the email address
-  
+  const [email, setEmail] = useState("");
+  const [isPending, setIsPending] = useState(false);
+  const navigate = useNavigate();
+
+  const loginWithMagicLink = async () => {
+    setIsPending(true);
+    const { data, error } = await supabase.auth.signInWithOtp({
+      email: email,
+    });
+    if (error) {
+      console.log(error);
+    } else {
+      console.log("data", data);
+      navigate("/");
+    }
+    setIsPending(false);
+  };
+
+  const loginWithGoogle = async () => {
+    const { data, error } = await supabase.auth.signInWithOAuth({
+      provider: "google",
+    });
+    if (error) console.log(error);
+  };
+
+  const loginWithGithub = async () => {
+    const { data, error } = await supabase.auth.signInWithOAuth({
+      provider: "github",
+    });
+    if (error) console.log(error);
+  };
+
   return (
     <div className="flex min-h-[100dvh] flex-col items-center justify-center bg-background px-4 py-12 sm:px-6 lg:px-8">
       <div className="mx-auto max-w-md space-y-6">
         <div className="text-center">
-          <h1 className="text-3xl font-bold tracking-tight text-foreground">Sign in to your account</h1>
-          <p className="mt-2 text-muted-foreground">Enter your email below to sign in with a magic link.</p>
+          <h1 className="text-3xl font-bold tracking-tight text-foreground">
+            Sign in to your account
+          </h1>
+          <p className="mt-2 text-muted-foreground">
+            Enter your email below to sign in with a magic link.
+          </p>
         </div>
+
         <div className="space-y-4">
           <div>
             <Label htmlFor="email">Email</Label>
-            <Input id="email" type="email" placeholder="m@example.com" className="mt-1" />
+            <Input
+              id="email"
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder="m@example.com"
+              className="mt-1"
+            />
           </div>
-          <Button variant="outline" className="w-full">
-            Sign in with magic link
+
+          <Button
+            disabled={isPending}
+            onClick={loginWithMagicLink}
+             
+            variant="outline"
+            className="w-full"
+          >
+            {isPending ? "Sending..." : "Sign in with magic link"}
           </Button>
+
           <div className="relative">
             <div className="absolute inset-0 flex items-center">
               <div className="w-full border-t border-muted" />
@@ -30,12 +81,13 @@ export default function Login() {
               <span className="bg-white px-2 text-muted-foreground">Or</span>
             </div>
           </div>
+
           <div className="flex gap-2">
-            <Button variant="default" className="w-full">
+            <Button onClick={loginWithGoogle} variant="default" className="w-full">
               <ChromeIcon className="mr-2 h-4 w-4" />
               Sign in with Google
             </Button>
-            <Button variant="default" className="w-full">
+            <Button onClick={loginWithGithub} variant="default" className="w-full">
               <GitlabIcon className="mr-2 h-4 w-4" />
               Sign in with GitHub
             </Button>
