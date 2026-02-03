@@ -2,7 +2,7 @@ Supabase is an open-source backend-as-a-service (BaaS) platform that helps devel
 
 It’s often called an open-source alternative to Firebase by Google.
 
-🧩 ## What Supabase Is Made Of
+🧩 What Supabase Is Made Of
 
 Supabase provides a complete backend stack, built mainly on PostgreSQL, including:
 
@@ -31,7 +31,7 @@ Lets you listen to live changes in your database (for chat apps, dashboards, etc
 Write custom backend logic with JavaScript/TypeScript — runs securely on the edge (fast and scalable).
 
 
-🧠 ## Common Use Cases
+🧠  Common Use Cases
 
 - User authentication system
 
@@ -45,7 +45,7 @@ Write custom backend logic with JavaScript/TypeScript — runs securely on the e
 
 - Social media or community platforms
 
-💡 ## Example:
+💡 Example:
 
 If you’re building a React app and don’t want to manually set up:
 
